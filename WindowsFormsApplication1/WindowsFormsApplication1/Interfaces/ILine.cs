@@ -1,0 +1,6 @@
+﻿namespace Rooms
+{
+    class ILine
+    {
+    }
+}

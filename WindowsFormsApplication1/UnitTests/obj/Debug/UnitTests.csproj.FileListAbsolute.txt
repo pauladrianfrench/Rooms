@@ -1,0 +1,10 @@
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.pdb
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\nunit.framework.dll
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\nunit.framework.xml
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.dll
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.pdb
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.exe
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.pdb
+C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\Moq.dll
