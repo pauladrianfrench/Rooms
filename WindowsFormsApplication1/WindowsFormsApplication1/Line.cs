@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Drawing;
     
-    public class Line
+    public class Line : ILine
     {
         public enum Direction { Up = 0, Right, Down, Left, Undef = 99999 }
 
@@ -29,14 +29,14 @@
         public Point Point1 { get; set; }
         public Point Point2 { get; set; }
         public int Length { get { return DistanceBetween(Point1, Point2); } }
-        public bool Vertical { get { return (Point1.X == Point2.X); } }
+        public bool IsVertical { get { return (Point1.X == Point2.X); } }
         public int CountIntersects { get { return iSects.Count; } }
 
         public Direction Orientation
         {
             get
             {
-                if (Vertical)
+                if (IsVertical)
                 {
                     if (Point1.Y < Point2.Y)
                         return Direction.Up;
@@ -68,7 +68,7 @@
         }
         public bool HasPoint(Point p)
         {
-            if (Vertical)
+            if (IsVertical)
             {
                 if (Point1.X == p.X)
                 {
@@ -131,12 +131,12 @@
             if (this.Equals(line))
                 return true;
 
-            if (this.Vertical != line.Vertical || this.Length < line.Length)
+            if (this.IsVertical != line.IsVertical || this.Length < line.Length)
             {
                 return false;
             }
 
-            if (this.Vertical)
+            if (this.IsVertical)
             {
                 if (this.Point1.X != line.Point1.X)
                 {
@@ -159,12 +159,12 @@
 
         public bool OverlapsOrTouches(Line line)
         {
-            if (this.Vertical != line.Vertical)
+            if (this.IsVertical != line.IsVertical)
             {
                 return false;
             }
 
-            if (this.Vertical)
+            if (this.IsVertical)
             {
                 if (this.Point1.X != line.Point1.X)
                 {
@@ -196,7 +196,7 @@
             {
                 return new Line(new Point(0, 0), new Point(0, 0));
             }
-            if (line1.Vertical)
+            if (line1.IsVertical)
             {
                 int x = line1.Point1.X;
                 int lo = Utils.Min(line1.Point1.Y, line1.Point2.Y, line2.Point1.Y, line2.Point2.Y);
@@ -212,7 +212,7 @@
             } 
         }
 
-        public bool Trim()
+        public bool TrimToIntersects()
         {
             if (iSects.Count <= 0)
                 return true;
@@ -242,7 +242,7 @@
 
         private int DistanceBetween(Point p1, Point p2)
         {
-            return (Vertical) ? Math.Abs(p1.Y - p2.Y) : Math.Abs(p1.X - p2.X);
+            return (IsVertical) ? Math.Abs(p1.Y - p2.Y) : Math.Abs(p1.X - p2.X);
         }
 
         private bool TrimPoint(Point point)
@@ -262,13 +262,13 @@
             return true;
         }
 
-        public bool Intersects(Line l)
+        public bool CrossesOrTouches(Line l)
         {
-            if (this.Vertical == l.Vertical)
+            if (this.IsVertical == l.IsVertical)
                 return false;
 
-            Line vert = (this.Vertical) ? this : l;
-            Line horiz = (l.Vertical) ? this : l;
+            Line vert = (this.IsVertical) ? this : l;
+            Line horiz = (l.IsVertical) ? this : l;
 
             int l1X = vert.Point1.X;
             int l2X1 = horiz.Point1.X;
@@ -284,11 +284,11 @@
 
         public bool Crosses(Line l)
         {
-            if (this.Vertical == l.Vertical)
+            if (this.IsVertical == l.IsVertical)
                 return false;
 
-            Line vert = (this.Vertical) ? this : l;
-            Line horiz = (l.Vertical) ? this : l;
+            Line vert = (this.IsVertical) ? this : l;
+            Line horiz = (l.IsVertical) ? this : l;
 
             int l1X = vert.Point1.X;
             int l2X1 = horiz.Point1.X;

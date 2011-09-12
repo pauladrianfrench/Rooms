@@ -120,7 +120,7 @@
 
             for (int i = 0; i < lines.Count; ++i)
             {
-                lines[i].Trim();
+                lines[i].TrimToIntersects();
             }
         }
 
@@ -144,10 +144,10 @@
 
         private Point GetIntersect(Line line1, Line line2)
         {
-            if (line1.Intersects(line2))
+            if (line1.CrossesOrTouches(line2))
             {
-                int x = (line1.Vertical) ? line1.Point1.X : line2.Point1.X;
-                int y = (line2.Vertical) ? line1.Point1.Y : line2.Point1.Y;
+                int x = (line1.IsVertical) ? line1.Point1.X : line2.Point1.X;
+                int y = (line2.IsVertical) ? line1.Point1.Y : line2.Point1.Y;
                 return new Point(x, y);
             }
             return ShapeMaker.InvalidPoint;

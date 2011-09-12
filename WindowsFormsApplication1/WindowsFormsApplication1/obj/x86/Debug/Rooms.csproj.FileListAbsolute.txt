@@ -35,3 +35,13 @@ C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProj
 C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
 C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.exe
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.pdb
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\Rooms.Form1.resources
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\Rooms.Properties.Resources.resources
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Projects\Rooms\WindowsFormsApplication1\WindowsFormsApplication1\obj\x86\Debug\GenerateResource.write.1.tlog
