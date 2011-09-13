@@ -6,11 +6,11 @@
     
     public static class Sketcher
     {
-        public static void Draw(ShapeMaker a, DrawParams dParams, SelectShapeEnum fillMode)
+        public static void Draw(ShapeMaker a, DrawParams dParams, SelectShapeEnum fillMode, List<Line> lines)
         {
             if (a.Shapes.Count == 0)
             {
-                foreach (Line line in a.Lines)
+                foreach (Line line in lines)
                 {
                     Draw(line, dParams);
                 }

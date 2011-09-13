@@ -39,6 +39,7 @@
     <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -53,6 +54,21 @@
       <Project>{A72B703A-F5D5-4D7C-959F-4A0713A44177}</Project>
       <Name>Rooms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestFiles\lines1.txt" />
+    <Content Include="TestFiles\lines10.txt" />
+    <Content Include="TestFiles\lines11.txt" />
+    <Content Include="TestFiles\lines12.txt" />
+    <Content Include="TestFiles\lines13.txt" />
+    <Content Include="TestFiles\lines2.txt" />
+    <Content Include="TestFiles\lines3.txt" />
+    <Content Include="TestFiles\lines4.txt" />
+    <Content Include="TestFiles\lines5.txt" />
+    <Content Include="TestFiles\lines6.txt" />
+    <Content Include="TestFiles\lines7.txt" />
+    <Content Include="TestFiles\lines8.txt" />
+    <Content Include="TestFiles\lines9.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

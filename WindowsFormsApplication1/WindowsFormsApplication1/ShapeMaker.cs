@@ -10,13 +10,13 @@
         
         public static Point InvalidPoint;
 
-        private List<Line>  lines;
+        //private List<Line>  lines;
         private List<Shape> shapes;
 
         private Trans areaTrans;
 
         public List<Shape> Shapes { get { return shapes; } }
-        public List<Line> Lines { get { return lines; } set { lines = value; } }
+      //  public List<Line> Lines { get { return lines; } set { lines = value; } }
 
         public ShapeMaker(int width, int height, Trans t)
         {
@@ -28,26 +28,26 @@
 
             areaTrans = t;
 
-            lines = new List<Line>();
+          //  lines = new List<Line>();
             shapes = new List<Shape>();
         }
 
-        public bool AddLine(Line l)
+     //   public bool AddLine(Line l)
+     //   {
+      //      lines.Add(l);
+      //      return true;
+      //  }
+
+        public void MakeShapes(List<Line> lines)
         {
-            lines.Add(l);
-            return true;
+            ResolveOverLappingLines(lines);
+            FilletLines(lines);
+            RemoveZeroLengthLines(lines);
+            SeparateShapes(ref lines);
+            BuildShapes(lines);
         }
 
-        public void MakeShapes()
-        {
-            ResolveOverLappingLines();
-            FilletLines();
-            RemoveZeroLengthLines();
-            SeparateShapes();
-            BuildShapes();
-        }
-
-        private void ResolveOverLappingLines()
+        private void ResolveOverLappingLines(List<Line> lines)
         {
         Restart:
             for (int i = 0; i < lines.Count; ++i)
@@ -68,23 +68,20 @@
             }
         }
 
-        private bool RemoveZeroLengthLines()
+        private bool RemoveZeroLengthLines(List<Line> lines)
         {
-            List<Line> temp = new List<Line>(); 
-
-            for (int i = 0; i < lines.Count; ++i)
+            for (int i = lines.Count-1; i >= 0; --i)
             {
-                if (lines[i].Length > 0 && lines[i].CountIntersects > 0)
-                    temp.Add(lines[i]);
+                if (lines[i].Length == 0 || lines[i].CountIntersects == 0)
+                {
+                    lines.RemoveAt(i);
+                }
             }
-
-            lines.Clear();
-            lines = temp;
 
             return true;
         }
 
-        public void RemoveFullyOverlappedLines()
+        public void RemoveFullyOverlappedLines(List<Line> lines)
         {
         Restart:
             for (int i = 0; i < lines.Count; ++i)
@@ -103,7 +100,7 @@
             }
         }
 
-        public void FilletLines()
+        public void FilletLines(List<Line> lines)
         {
             for (int i = 0; i < lines.Count; ++i )
             {
@@ -124,7 +121,7 @@
             }
         }
 
-        private bool SeparateShapes()
+        private bool SeparateShapes(ref List<Line> lines)
         {
             List<Line> temp = new List<Line>();
             
@@ -153,7 +150,7 @@
             return ShapeMaker.InvalidPoint;
         }
 
-        private void BuildShapes()
+        private void BuildShapes(List<Line> lines)
         {
             if (lines.Count == 0)
                 return;
@@ -164,11 +161,11 @@
             
             while (q.Count > 0)
             {
-                MapShape(q);
+                MapShape(q, lines);
 
                 if (q.Count == 0)
                 {
-                    int iLine = FindUnusedLine();
+                    int iLine = FindUnusedLine(lines);
                     if (iLine > -1)
                     {
                         q.Enqueue(lines[iLine], shapes);
@@ -177,7 +174,7 @@
             }
         }
 
-        private void MapShape(MyLineQueue q)
+        private void MapShape(MyLineQueue q, List<Line> lines)
         {
             Shape s = new Shape();
             try
@@ -185,7 +182,7 @@
                 Line start = q.Dequeue();
                 int qSize = q.Count;
                 
-                FollowLine(start, s, q);
+                FollowLine(start, s, q, lines);
 
                 if (ShapeAlreadyExists(s))
                 {
@@ -193,7 +190,7 @@
                     if (nRemove > 0)
                         q.Remove(nRemove);
                 }
-                else if (ResolveDuplicateLines(s))
+                else if (ResolveDuplicateLines(s, lines))
                 {
                     int remove = q.Count - qSize;
                     if (remove > 0)
@@ -228,7 +225,7 @@
             return false;
         }
 
-        private bool ResolveDuplicateLines(Shape s)
+        private bool ResolveDuplicateLines(Shape s, List<Line> lines)
         {
             bool ret = false;
             List<Line> l = s.GetLines();
@@ -239,7 +236,7 @@
                 {
                     if (l[i] == l[j])
                     {
-                        KillLine(l[i]);
+                        KillLine(l[i], lines);
                         ret = true;
                     }
                 }
@@ -247,7 +244,7 @@
             return ret;
         }
 
-        private void KillLine(Line l)
+        private void KillLine(Line l, List<Line> lines)
         {
             int nLine = lines.Count;
             int kill = -1;
@@ -279,7 +276,7 @@
             shapes.Add(s);
         }
 
-        int FindUnusedLine()
+        int FindUnusedLine(List<Line> lines)
         {
             int nLine = lines.Count;
             for (int i = 0; i < nLine; i++)
@@ -345,7 +342,7 @@
             return list;
         }
 
-        private void FollowLine(Line start, Shape s, MyLineQueue q)
+        private void FollowLine(Line start, Shape s, MyLineQueue q, List<Line> lines)
         {
            // q.Remove(start);
 
@@ -370,7 +367,7 @@
 
             if (l.Count == 1)
             {
-                FollowLine(l[0], s, q);
+                FollowLine(l[0], s, q, lines);
             }
             else
             {
@@ -397,18 +394,18 @@
                     if (iL > -1)
                         q.Enqueue(l[iL], shapes);
 
-                    FollowLine(l[iR], s, q);
+                    FollowLine(l[iR], s, q, lines);
 
                 }
                 else if (iU > -1)
                 {
                     if (iL > -1)
                         q.Enqueue(l[iL], shapes);
-                    FollowLine(l[iU], s, q);
+                    FollowLine(l[iU], s, q, lines);
                 }
                 else if (iL > -1)
                 {
-                    FollowLine(l[iL], s, q);
+                    FollowLine(l[iL], s, q, lines);
                 }
             }
             return;
@@ -419,7 +416,7 @@
 
         public void Reset()
         {
-            lines.Clear();
+           // lines.Clear();
             shapes.Clear();
         }
 

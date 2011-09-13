@@ -41,7 +41,7 @@
                                             Convert.ToInt32(this.point2Y.Value)));
 
             userLines.Add(l);
-            shapeMaker.AddLine(l); 
+           // shapeMaker.AddLine(l); 
 
             DrawArea(SelectShapeEnum.None);
         }
@@ -56,7 +56,7 @@
             dp.Pen = new Pen(Color.Blue);
             dp.FillBrush = new SolidBrush(Color.GreenYellow);
 
-            Sketcher.Draw(shapeMaker, dp, fill);
+            Sketcher.Draw(shapeMaker, dp, fill, userLines);
 
             List<Shape> flatList = shapeMaker.GetFlatListOfShapes();
             int nShapes = flatList.Count;
@@ -104,7 +104,7 @@
 
         private void buttonFillet_Click(object sender, EventArgs e)
         {
-            shapeMaker.MakeShapes();
+            shapeMaker.MakeShapes(userLines);
             buttonFillet.Enabled = false;
             buttonReset.Enabled = true;
             useFileButton.Enabled = false;
@@ -159,7 +159,7 @@
                 userLines = LineReader.GetLines(openFileDialog1.FileName);
 
                 shapeMaker.Reset();
-                shapeMaker.Lines = userLines;
+               // shapeMaker.Lines = userLines;
                 AddLine.Enabled = false;
                 useFileButton.Enabled = false;
                 DrawArea(SelectShapeEnum.None);
