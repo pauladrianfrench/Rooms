@@ -240,7 +240,7 @@
             return true;
         }
 
-        private int DistanceBetween(Point p1, Point p2)
+        protected int DistanceBetween(Point p1, Point p2)
         {
             return (IsVertical) ? Math.Abs(p1.Y - p2.Y) : Math.Abs(p1.X - p2.X);
         }

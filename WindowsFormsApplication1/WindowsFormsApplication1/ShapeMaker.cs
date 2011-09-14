@@ -32,18 +32,12 @@
             shapes = new List<Shape>();
         }
 
-     //   public bool AddLine(Line l)
-     //   {
-      //      lines.Add(l);
-      //      return true;
-      //  }
-
         public void MakeShapes(List<Line> lines)
         {
             ResolveOverLappingLines(lines);
             FilletLines(lines);
             RemoveZeroLengthLines(lines);
-            SeparateShapes(ref lines);
+            SeparateShapes(lines);
             BuildShapes(lines);
         }
 
@@ -120,22 +114,22 @@
                 lines[i].TrimToIntersects();
             }
         }
-
-        private bool SeparateShapes(ref List<Line> lines)
+        
+        private bool SeparateShapes(List<Line> lines)
         {
             List<Line> temp = new List<Line>();
-            
-            for (int i = 0; i < lines.Count; i++)
+
+            for (int i = lines.Count - 1; i >= 0; i--)
             {
-                List<Line> s = lines[i].Split();
+                Line l = lines[i];
+                lines.RemoveAt(i);
+                List<Line> s = l.Split();
                 for (int j = 0; j < s.Count; ++j)
                 {
                     if (s[j].Length > 0)
-                        temp.Add(s[j]);
+                        lines.Add(s[j]);
                 }
             }
-            lines.Clear();
-            lines = temp;
             return true;
         }
 
