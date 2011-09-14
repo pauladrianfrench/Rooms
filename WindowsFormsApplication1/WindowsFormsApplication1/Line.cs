@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Drawing;
     
-    public class Line : ILine
+    public class Line : IRelativeLine
     {
         public enum Direction { Up = 0, Right, Down, Left, Undef = 99999 }
 
@@ -52,8 +52,6 @@
                 }
             }
         }
-
-        public Line Flip() { return new Line(Point2, Point1); }
         public Direction RelativeDirection(Line next)
         {
             if (this.Point2 != next.Point1)
@@ -190,28 +188,6 @@
             }
         }
 
-        public static Line JoinLines(Line line1, Line line2)
-        {
-            if (!line1.OverlapsOrTouches(line2))
-            {
-                return new Line(new Point(0, 0), new Point(0, 0));
-            }
-            if (line1.IsVertical)
-            {
-                int x = line1.Point1.X;
-                int lo = Utils.Min(line1.Point1.Y, line1.Point2.Y, line2.Point1.Y, line2.Point2.Y);
-                int hi = Utils.Max(line1.Point1.Y, line1.Point2.Y, line2.Point1.Y, line2.Point2.Y);
-                return new Line(new Point(x, lo), new Point(x, hi));
-            }
-            else
-            {
-                int y = line1.Point1.Y;
-                int lo = Utils.Min(line1.Point1.X, line1.Point2.X, line2.Point1.X, line2.Point2.X);
-                int hi = Utils.Max(line1.Point1.X, line1.Point2.X, line2.Point1.X, line2.Point2.X);
-                return new Line(new Point(lo, y), new Point(hi, y));
-            } 
-        }
-
         public bool TrimToIntersects()
         {
             if (iSects.Count <= 0)
@@ -238,11 +214,6 @@
             Point1 = iSects[c1].P;
             Point2 = iSects[c2].P;
             return true;
-        }
-
-        protected int DistanceBetween(Point p1, Point p2)
-        {
-            return (IsVertical) ? Math.Abs(p1.Y - p2.Y) : Math.Abs(p1.X - p2.X);
         }
 
         private bool TrimPoint(Point point)
@@ -301,5 +272,34 @@
             return Utils.Max(Math.Abs(l1X - l2X1), Math.Abs(l1X - l2X2)) < horiz.Length
                 && Utils.Max(Math.Abs(l2Y - l1Y1), Math.Abs(l2Y - l1Y2)) < vert.Length;
         }
+
+        public static Line JoinLines(Line line1, Line line2)
+        {
+            if (!line1.OverlapsOrTouches(line2))
+            {
+                return new Line(new Point(0, 0), new Point(0, 0));
+            }
+            if (line1.IsVertical)
+            {
+                int x = line1.Point1.X;
+                int lo = Utils.Min(line1.Point1.Y, line1.Point2.Y, line2.Point1.Y, line2.Point2.Y);
+                int hi = Utils.Max(line1.Point1.Y, line1.Point2.Y, line2.Point1.Y, line2.Point2.Y);
+                return new Line(new Point(x, lo), new Point(x, hi));
+            }
+            else
+            {
+                int y = line1.Point1.Y;
+                int lo = Utils.Min(line1.Point1.X, line1.Point2.X, line2.Point1.X, line2.Point2.X);
+                int hi = Utils.Max(line1.Point1.X, line1.Point2.X, line2.Point1.X, line2.Point2.X);
+                return new Line(new Point(lo, y), new Point(hi, y));
+            }
+        }
+
+        public static int DistanceBetween(Point p1, Point p2)
+        {
+            return (p1.X == p2.X) ? Math.Abs(p1.Y - p2.Y) : Math.Abs(p1.X - p2.X);
+        }
+
+        public static Line Flip(Line l) { return new Line(l.Point2, l.Point1); }
     }
 }

@@ -4,18 +4,21 @@
     using System.Drawing;
     using System.Collections.Generic;
 
-    public class IntersectedLine : Line, IIntersectedLine
+    public class IntersectedLine : IIntersectedLine
     {
         private List<Intersect> iSects;
+        private ILine line;
 
-        public IntersectedLine(Point p1, Point p2)
-            : base(p1, p2)
-        {
-        }
+        public Point Point1 { get { return line.Point1; } set { line.Point1 = value; } }
+        public Point Point2 { get { return line.Point2; } set { line.Point2 = value; } }
+        public int Length { get { return line.Length; } }
+        public bool IsVertical { get { return line.IsVertical; } }
+        public Line.Direction Orientation { get { return line.Orientation;  } }
 
-        public IntersectedLine(Line l)
-            : base(l.Point1, l.Point2)
+        public IntersectedLine(ILine l)
         {
+            List<Intersect> iSects = new List<Intersect>();
+            line = l;    
         }
 
         public int CountIntersects { get { return iSects.Count; } }
@@ -27,7 +30,7 @@
                 if (ix == iSects[i])
                     return false;
 
-                if (DistanceBetween(ix.P, Point1) < DistanceBetween(iSects[i].P, Point1))
+                if (Line.DistanceBetween(ix.P, line.Point1) < Line.DistanceBetween(iSects[i].P, line.Point1))
                 {
                     iSects.Insert(i, ix);
                     return true;
@@ -37,14 +40,14 @@
             return true;
         }
 
-        public List<Line> Split()
+        public List<ILine> Split()
         {
             List<Line> ret = new List<Line>();
 
             if (iSects.Count <= 2)
             {
                 iSects.Clear();
-                ret.Add(this);
+                ret.Add(this.line);
                 return ret;
             }
             for (int i = 0; i < iSects.Count - 1; ++i)
@@ -66,19 +69,19 @@
             int c2 = 0;
             for (int i = 0; i < iSects.Count; ++i)
             {
-                if (DistanceBetween(iSects[i].P, Point1) <= dist1)
+                if (Line.DistanceBetween(iSects[i].P, line.Point1) <= dist1)
                 {
                     c1 = i;
-                    dist1 = DistanceBetween(iSects[i].P, Point1);
+                    dist1 = Line.DistanceBetween(iSects[i].P, line.Point1);
                 }
-                if (DistanceBetween(iSects[i].P, Point2) <= dist2)
+                if (Line.DistanceBetween(iSects[i].P, line.Point2) <= dist2)
                 {
                     c2 = i;
-                    dist2 = DistanceBetween(iSects[i].P, Point2);
+                    dist2 = Line.DistanceBetween(iSects[i].P, line.Point2);
                 }
             }
-            Point1 = iSects[c1].P;
-            Point2 = iSects[c2].P;
+            line.Point1 = iSects[c1].P;
+            line.Point2 = iSects[c2].P;
             return true;
         }
 
@@ -89,9 +92,9 @@
 
             foreach (Intersect ix in iSects)
             {
-                if (DistanceBetween(point, ix.P) <= dist)
+                if (Line.DistanceBetween(point, ix.P) <= dist)
                 {
-                    dist = DistanceBetween(point, ix.P);
+                    dist = Line.DistanceBetween(point, ix.P);
                     p = ix.P;
                 }
             }

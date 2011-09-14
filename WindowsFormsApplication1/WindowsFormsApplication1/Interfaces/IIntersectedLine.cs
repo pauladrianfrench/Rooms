@@ -3,12 +3,12 @@
     using System.Drawing;
     using System.Collections.Generic;
 
-    interface IIntersectedLine
+    public interface IIntersectedLine : ILine
     {
         int CountIntersects { get; }
 
          bool AddIntersect(Intersect ix);
          bool TrimToIntersects();
-         List<Line> Split();
+         List<ILine> Split();
     }
 }

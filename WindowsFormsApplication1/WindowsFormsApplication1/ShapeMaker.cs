@@ -32,16 +32,23 @@
             shapes = new List<Shape>();
         }
 
-        public void MakeShapes(List<Line> lines)
+        public void MakeShapes(List<IRelativeLine> lines)
         {
             ResolveOverLappingLines(lines);
-            FilletLines(lines);
-            RemoveZeroLengthLines(lines);
-            SeparateShapes(lines);
-            BuildShapes(lines);
+
+            List<IIntersectedLine> iLines = new List<IIntersectedLine>();
+            foreach (ILine l in lines)
+            {
+                iLines.Add(new IntersectedLine(l));
+            }
+
+            FilletLines(iLines);
+            RemoveZeroLengthLines(iLines);
+            SeparateShapes(iLines);
+            BuildShapes(iLines);
         }
 
-        private void ResolveOverLappingLines(List<Line> lines)
+        private void ResolveOverLappingLines(List<IRelativeLine> lines)
         {
         Restart:
             for (int i = 0; i < lines.Count; ++i)
@@ -62,7 +69,7 @@
             }
         }
 
-        private bool RemoveZeroLengthLines(List<Line> lines)
+        private bool RemoveZeroLengthLines(List<IIntersectedLine> lines)
         {
             for (int i = lines.Count-1; i >= 0; --i)
             {
@@ -75,7 +82,7 @@
             return true;
         }
 
-        public void RemoveFullyOverlappedLines(List<Line> lines)
+        public void RemoveFullyOverlappedLines(List<IRelativeLine> lines)
         {
         Restart:
             for (int i = 0; i < lines.Count; ++i)
@@ -94,7 +101,7 @@
             }
         }
 
-        public void FilletLines(List<Line> lines)
+        public void FilletLines(List<IIntersectedLine> lines)
         {
             for (int i = 0; i < lines.Count; ++i )
             {
@@ -115,25 +122,23 @@
             }
         }
         
-        private bool SeparateShapes(List<Line> lines)
+        private bool SeparateShapes(List<IIntersectedLine> lines)
         {
-            List<Line> temp = new List<Line>();
-
             for (int i = lines.Count - 1; i >= 0; i--)
             {
-                Line l = lines[i];
+                IIntersectedLine l = lines[i];
                 lines.RemoveAt(i);
-                List<Line> s = l.Split();
+                List<ILine> s = l.Split();
                 for (int j = 0; j < s.Count; ++j)
                 {
                     if (s[j].Length > 0)
-                        lines.Add(s[j]);
+                        lines.Add((IntersectedLine)s[j]);
                 }
             }
             return true;
         }
 
-        private Point GetIntersect(Line line1, Line line2)
+        private Point GetIntersect(ILine line1, ILine line2)
         {
             if (line1.CrossesOrTouches(line2))
             {
@@ -144,14 +149,14 @@
             return ShapeMaker.InvalidPoint;
         }
 
-        private void BuildShapes(List<Line> lines)
+        private void BuildShapes(List<IRelativeLine> lines)
         {
             if (lines.Count == 0)
                 return;
             
             MyLineQueue q = new MyLineQueue();
 
-            q.Enqueue(lines[0], shapes);
+            q.Enqueue((Line)lines[0], shapes);
             
             while (q.Count > 0)
             {
@@ -195,7 +200,7 @@
                     int remove = q.Count - qSize;
                     if (remove > 0)
                         q.Remove(remove);
-                    q.Enqueue(((s.GetLines())[0]).Flip(), shapes);
+                    q.Enqueue(Line.Flip((s.GetLines())[0]), shapes);
                 }
                 else
                 {
@@ -352,7 +357,9 @@
                     if (lines[i].HasPoint(start.Point2))
                     {
                         if (start.Point2 != lines[i].Point1)
-                            lines[i] = lines[i].Flip();
+                        {
+                            lines[i] = Line.Flip(lines[i]);
+                        }
                         
                         l.Add(lines[i]);
                     }
