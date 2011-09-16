@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Interfaces\IIntersectedLine.cs" />
     <Compile Include="Interfaces\ILine.cs" />
-    <Compile Include="Interfaces\IRelativeLine.cs" />
     <Compile Include="IntersectedLine.cs" />
     <Compile Include="ShapeMaker.cs" />
     <Compile Include="DrawParams.cs" />

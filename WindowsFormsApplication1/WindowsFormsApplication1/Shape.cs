@@ -119,7 +119,7 @@
 
         public bool IsAdjacentTo(Shape s)
         {
-            List<Line> lines1 = this.GetLines();
+            List<ILine> lines1 = this.GetLines();
             int nLine = lines1.Count;
 
             for (int i = 0; i < nLine; ++i)
@@ -154,23 +154,23 @@
             if (rightest == ShapeMaker.InvalidPoint)
                 return false;
 
-            Line ray = new Line(rightest, new Point(Int32.MaxValue, rightest.Y));
+            ILine ray = new Line(rightest, new Point(Int32.MaxValue, rightest.Y));
 
             int intersections = 0;
 
-            foreach (Line l in this.GetLines())
+            foreach (ILine l in this.GetLines())
             {
-                if (ray.Crosses(l))
+                if (Line.Crosses(ray, l))
                     intersections++;
             }
             return (intersections % 2) != 0;
         }
 
-        public bool HasLine(Line l)
+        public bool HasLine(ILine l)
         {
-            foreach (Line lin in GetLines())
+            foreach (ILine lin in GetLines())
             {
-                if (lin == l)
+                if (lin.IsCongruentTo(l))
                     return true;
             }
             foreach (Shape s in shapes)
@@ -187,9 +187,9 @@
             private set { }
         }
 
-        public List<Line> GetLines()
+        public List<ILine> GetLines()
         {
-            List<Line> lines = new List<Line>();
+            List<ILine> lines = new List<ILine>();
             if (points.Count < 2)
                 return lines;
             for (int i = 0; i < points.Count; i++)
@@ -199,13 +199,15 @@
             return lines;
         }
 
-        public bool Contains(Line l)
+        public bool Contains(ILine l)
         {
             for (int i = 0; i < points.Count; i++)
             {
-                Line shapeLine = new Line(points[i], points[(i + 1) % points.Count]);
-                if (shapeLine == l)
+                ILine shapeLine = new Line(points[i], points[(i + 1) % points.Count]);
+                if (shapeLine.IsCongruentTo(l))
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -262,10 +264,10 @@
             return 0.5 * Math.Abs(odds - evens);
         }
 
-        public int TopEdge { get { return top; } private set{} }
-        public int BottomEdge { get { return bottom; } private set{} }
-        public int LeftEdge { get { return left; } private set{} }
-        public int RightEdge { get { return right; } private set{} }
+        public int TopEdge { get { return top; } private set { } }
+        public int BottomEdge { get { return bottom; } private set { } }
+        public int LeftEdge { get { return left; } private set { } }
+        public int RightEdge { get { return right; } private set { } }
 
     }
 }

@@ -5,10 +5,10 @@
 
     public interface IIntersectedLine : ILine
     {
-        int CountIntersects { get; }
-
+         int CountIntersects { get; }
          bool AddIntersect(Intersect ix);
          bool TrimToIntersects();
          List<ILine> Split();
+         ILine GetLine();
     }
 }

@@ -5,17 +5,17 @@
 
     class MyLineQueue
     {
-        private List<Line> lines;
+        private List<ILine> lines;
 
         public MyLineQueue()
         {
-            lines = new List<Line>();
+            lines = new List<ILine>();
         }
-        public bool Remove(Line l)
+        public bool Remove(ILine l)
         {
             for (int i = 0; i < lines.Count; i++)
             {
-                if (lines[i] == l)
+                if (lines[i].IsCongruentTo(l))
                 {
                     lines.RemoveAt(i);
                     return true;
@@ -31,18 +31,18 @@
 
             return true;
         }
-        public int Find(Line l)
+        public int Find(ILine l)
         {
             for (int i = 0; i < lines.Count; i++)
             {
-                if (lines[i] == l)
+                if (lines[i].IsCongruentTo(l))
                 {
                     return i;
                 }
             }
             return -1;
         }
-        public void Enqueue(Line l, List<Shape> shapes)
+        public void Enqueue(ILine l, List<Shape> shapes)
         {
             int findCount = 0;
             foreach (Shape s in shapes)
@@ -54,7 +54,7 @@
             if (findCount < 2 && Find(l) < 0)
                 lines.Add(l);
         }
-        public Line Dequeue()
+        public ILine Dequeue()
         {
 
             if (lines.Count == 0)
@@ -63,7 +63,7 @@
             }
             else
             {
-                Line ret = lines[0];
+                ILine ret = lines[0];
                 lines.RemoveAt(0);
                 return ret;
             }

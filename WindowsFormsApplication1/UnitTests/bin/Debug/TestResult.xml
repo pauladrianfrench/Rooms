@@ -1,15 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-09-07" time="21:20:14">
-  <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.3053" os-version="Microsoft Windows NT 5.1.2600 Service Pack 3" platform="Win32NT" cwd="C:\Program Files\NUnit 2.5.9\bin\net-2.0" machine-name="PAUL" user="PaulF" user-domain="PAUL" />
+<test-results name="C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll" total="5" errors="1" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-09-15" time="23:03:38">
+  <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.3053" os-version="Microsoft Windows NT 5.1.2600 Service Pack 3" platform="Win32NT" cwd="C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug" machine-name="PAUL" user="PaulF" user-domain="PAUL" />
   <culture-info current-culture="en-GB" current-uiculture="en-US" />
-  <test-suite type="Assembly" name="C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll" executed="True" result="Success" success="True" time="1.875" asserts="0">
+  <test-suite type="Assembly" name="C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll" executed="False" result="Cancelled">
     <results>
-      <test-suite type="Namespace" name="UnitTests" executed="True" result="Success" success="True" time="1.844" asserts="0">
+      <test-suite type="Namespace" name="UnitTests" executed="False" result="Cancelled">
         <results>
-          <test-suite type="TestFixture" name="Class1" executed="True" result="Success" success="True" time="1.828" asserts="0">
+          <test-suite type="TestFixture" name="TestRooms" executed="False" result="Cancelled">
             <results>
-              <test-case name="UnitTests.Class1.Test1" executed="True" result="Success" success="True" time="1.781" asserts="2" />
+              <test-case name="UnitTests.TestRooms.Test1" executed="True" result="Success" success="True" time="0.828" asserts="2" />
+              <test-case name="UnitTests.TestRooms.TestIntersectedLine1" executed="True" result="Success" success="True" time="0.016" asserts="35" />
+              <test-case name="UnitTests.TestRooms.TestIntersectedLine2" executed="True" result="Success" success="True" time="0.000" asserts="27" />
+              <test-case name="UnitTests.TestRooms.TestLine" executed="True" result="Success" success="True" time="0.000" asserts="35" />
+              <test-case name="UnitTests.TestRooms.TestShapeMaker" executed="False" result="Cancelled">
+                <failure>
+                  <message><![CDATA[Test cancelled by user]]></message>
+                  <stack-trace><![CDATA[at System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+at System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+at NUnit.Core.Reflect.InvokeMethod(MethodInfo method, Object fixture, Object[] args)
+at NUnit.Core.TestMethod.RunTestMethod(TestResult testResult)
+at NUnit.Core.TestMethod.RunTestCase(TestResult testResult)
+]]></stack-trace>
+                </failure>
+              </test-case>
             </results>
           </test-suite>
         </results>

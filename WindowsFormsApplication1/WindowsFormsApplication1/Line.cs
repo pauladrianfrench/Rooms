@@ -4,34 +4,23 @@
     using System.Collections.Generic;
     using System.Drawing;
     
-    public class Line : IRelativeLine
+    public class Line : ILine
     {
         public enum Direction { Up = 0, Right, Down, Left, Undef = 99999 }
-
-        private List<Intersect> iSects;
 
         public Line(Point p1, Point p2)
         {
             Point1 = p1;
             Point2 = p2;
-            iSects = new List<Intersect>();
         }
-
-        public static bool operator ==(Line l1, Line l2)
-        {
-            return l1.IsCongruentTo(l2);
+        public Line(ILine l)
+        { 
+            this.Point1 = l.Point1; this.Point2 = l.Point2; 
         }
-        public static bool operator !=(Line l1, Line l2)
-        {
-            return !l1.IsCongruentTo(l2);
-        }
-
         public Point Point1 { get; set; }
         public Point Point2 { get; set; }
         public int Length { get { return DistanceBetween(Point1, Point2); } }
         public bool IsVertical { get { return (Point1.X == Point2.X); } }
-        public int CountIntersects { get { return iSects.Count; } }
-
         public Direction Orientation
         {
             get
@@ -52,7 +41,7 @@
                 }
             }
         }
-        public Direction RelativeDirection(Line next)
+        public Direction RelativeDirection(ILine next)
         {
             if (this.Point2 != next.Point1)
                 return Direction.Undef;
@@ -84,198 +73,15 @@
             }
             return false;
         }
-        public bool AddIntersect(Intersect ix)
-        {
-            for (int i = 0; i < iSects.Count; ++i)
-            {
-                if (ix == iSects[i])
-                    return false;
-
-                if (DistanceBetween(ix.P, Point1) < DistanceBetween(iSects[i].P, Point1))
-                {
-                    iSects.Insert(i, ix);
-                    return true;
-                }
-            }
-            iSects.Add(ix);
-            return true;
-        }
-
-        public List<Line> Split()
-        {
-            List<Line> ret = new List<Line>();
-
-            if (iSects.Count <= 2)
-            {
-                iSects.Clear();
-                ret.Add(this);
-                return ret;
-            }
-            for (int i = 0; i < iSects.Count - 1; ++i)
-            {
-                ret.Add(new Line(iSects[i].P, iSects[i + 1].P));
-            }
-            return ret;
-        }
-
-        public bool IsCongruentTo(Line line)
+        public bool IsCongruentTo(ILine line)
         {
             return (this.Point1 == line.Point1 && this.Point2 == line.Point2)
                 || (this.Point1 == line.Point2 && this.Point2 == line.Point1);
         }
-
-        public bool FullyOverlaps(Line line)
+       
+        public static ILine JoinLines(ILine line1, ILine line2)
         {
-            if (this.Equals(line))
-                return true;
-
-            if (this.IsVertical != line.IsVertical || this.Length < line.Length)
-            {
-                return false;
-            }
-
-            if (this.IsVertical)
-            {
-                if (this.Point1.X != line.Point1.X)
-                {
-                    return false;
-                }
-
-                return ((this.Point1.Y <= line.Point1.Y && this.Point2.Y >= line.Point2.Y)
-                    || (this.Point2.Y <= line.Point2.Y && this.Point1.Y >= line.Point1.Y));
-            }
-            else
-            {
-                if (this.Point1.Y != line.Point1.Y)
-                {
-                    return false;
-                }
-                return ((this.Point1.X <= line.Point1.X && this.Point2.X >= line.Point2.X)
-                    || (this.Point2.X <= line.Point2.X && this.Point1.X >= line.Point1.X));
-            }
-        }
-
-        public bool OverlapsOrTouches(Line line)
-        {
-            if (this.IsVertical != line.IsVertical)
-            {
-                return false;
-            }
-
-            if (this.IsVertical)
-            {
-                if (this.Point1.X != line.Point1.X)
-                {
-                    return false;
-                }
-
-                int lo = Utils.Min(this.Point1.Y, this.Point2.Y, line.Point1.Y, line.Point2.Y);
-                int hi = Utils.Max(this.Point1.Y, this.Point2.Y, line.Point1.Y, line.Point2.Y);
-
-                return (this.Length + line.Length) >= (hi - lo);
-            }
-            else
-            {
-                if (this.Point1.Y != line.Point1.Y)
-                {
-                    return false;
-                }
-
-                int lo = Utils.Min(this.Point1.X, this.Point2.X, line.Point1.X, line.Point2.X);
-                int hi = Utils.Max(this.Point1.X, this.Point2.X, line.Point1.X, line.Point2.X);
-
-                return (this.Length + line.Length) >= (hi - lo);
-            }
-        }
-
-        public bool TrimToIntersects()
-        {
-            if (iSects.Count <= 0)
-                return true;
-
-            int dist1 = Int32.MaxValue;
-            int dist2 = Int32.MaxValue;
-
-            int c1 = 0;
-            int c2 = 0;
-            for (int i = 0; i < iSects.Count; ++i)
-            {
-                if (DistanceBetween(iSects[i].P, Point1) <= dist1)
-                {
-                    c1 = i;
-                    dist1 = DistanceBetween(iSects[i].P, Point1);
-                }
-                if (DistanceBetween(iSects[i].P, Point2) <= dist2)
-                {
-                    c2 = i;
-                    dist2 = DistanceBetween(iSects[i].P, Point2);
-                }
-            }
-            Point1 = iSects[c1].P;
-            Point2 = iSects[c2].P;
-            return true;
-        }
-
-        private bool TrimPoint(Point point)
-        {
-            int dist = Int32.MaxValue;
-            Point p = new Point(point.X, point.Y);
-
-            foreach (Intersect ix in iSects)
-            {
-                if (DistanceBetween(point, ix.P) <= dist)
-                {
-                    dist = DistanceBetween(point, ix.P);
-                    p = ix.P;
-                }
-            }
-            point = p;
-            return true;
-        }
-
-        public bool CrossesOrTouches(Line l)
-        {
-            if (this.IsVertical == l.IsVertical)
-                return false;
-
-            Line vert = (this.IsVertical) ? this : l;
-            Line horiz = (l.IsVertical) ? this : l;
-
-            int l1X = vert.Point1.X;
-            int l2X1 = horiz.Point1.X;
-            int l2X2 = horiz.Point2.X;
-
-            int l2Y = horiz.Point1.Y;
-            int l1Y1 = vert.Point1.Y;
-            int l1Y2 = vert.Point2.Y;
-
-            return Utils.Max(Math.Abs(l1X - l2X1), Math.Abs(l1X - l2X2)) <= horiz.Length
-                && Utils.Max(Math.Abs(l2Y - l1Y1), Math.Abs(l2Y - l1Y2)) <= vert.Length;
-        }
-
-        public bool Crosses(Line l)
-        {
-            if (this.IsVertical == l.IsVertical)
-                return false;
-
-            Line vert = (this.IsVertical) ? this : l;
-            Line horiz = (l.IsVertical) ? this : l;
-
-            int l1X = vert.Point1.X;
-            int l2X1 = horiz.Point1.X;
-            int l2X2 = horiz.Point2.X;
-
-            int l2Y = horiz.Point1.Y;
-            int l1Y1 = vert.Point1.Y;
-            int l1Y2 = vert.Point2.Y;
-
-            return Utils.Max(Math.Abs(l1X - l2X1), Math.Abs(l1X - l2X2)) < horiz.Length
-                && Utils.Max(Math.Abs(l2Y - l1Y1), Math.Abs(l2Y - l1Y2)) < vert.Length;
-        }
-
-        public static Line JoinLines(Line line1, Line line2)
-        {
-            if (!line1.OverlapsOrTouches(line2))
+            if (!Line.OverlapsOrTouches(line1, line2))
             {
                 return new Line(new Point(0, 0), new Point(0, 0));
             }
@@ -294,12 +100,120 @@
                 return new Line(new Point(lo, y), new Point(hi, y));
             }
         }
-
         public static int DistanceBetween(Point p1, Point p2)
         {
             return (p1.X == p2.X) ? Math.Abs(p1.Y - p2.Y) : Math.Abs(p1.X - p2.X);
         }
+        public static ILine Flip(ILine l) { return new Line(l.Point2, l.Point1); }
+        public static bool CrossesOrTouches(ILine line1, ILine line2)
+        {
+            if (line1.IsVertical == line2.IsVertical)
+                return false;
 
-        public static Line Flip(Line l) { return new Line(l.Point2, l.Point1); }
+            ILine vert = (line1.IsVertical) ? line1 : line2;
+            ILine horiz = (line2.IsVertical) ? line1 : line2;
+
+            int l1X = vert.Point1.X;
+            int l2X1 = horiz.Point1.X;
+            int l2X2 = horiz.Point2.X;
+
+            int l2Y = horiz.Point1.Y;
+            int l1Y1 = vert.Point1.Y;
+            int l1Y2 = vert.Point2.Y;
+
+            return Utils.Max(Math.Abs(l1X - l2X1), Math.Abs(l1X - l2X2)) <= horiz.Length
+                && Utils.Max(Math.Abs(l2Y - l1Y1), Math.Abs(l2Y - l1Y2)) <= vert.Length;
+        }
+        public static bool Crosses(ILine line1, ILine line2)
+        {
+            if (line1.IsVertical == line2.IsVertical)
+                return false;
+
+            ILine vert = (line1.IsVertical) ? line1 : line2;
+            ILine horiz = (line2.IsVertical) ? line1 : line2;
+
+            int l1X = vert.Point1.X;
+            int l2X1 = horiz.Point1.X;
+            int l2X2 = horiz.Point2.X;
+
+            int l2Y = horiz.Point1.Y;
+            int l1Y1 = vert.Point1.Y;
+            int l1Y2 = vert.Point2.Y;
+
+            return Utils.Max(Math.Abs(l1X - l2X1), Math.Abs(l1X - l2X2)) < horiz.Length
+                && Utils.Max(Math.Abs(l2Y - l1Y1), Math.Abs(l2Y - l1Y2)) < vert.Length;
+        }
+        public static bool FullyOverlaps(ILine line1, ILine line2)
+        {
+            if (line1.Equals(line2))
+                return true;
+
+            if (line1.IsVertical != line2.IsVertical || line1.Length < line2.Length)
+            {
+                return false;
+            }
+
+            if (line1.IsVertical)
+            {
+                if (line1.Point1.X != line2.Point1.X)
+                {
+                    return false;
+                }
+
+                return ((line1.Point1.Y <= line2.Point1.Y && line1.Point2.Y >= line2.Point2.Y)
+                    || (line1.Point2.Y <= line2.Point2.Y && line1.Point1.Y >= line2.Point1.Y));
+            }
+            else
+            {
+                if (line1.Point1.Y != line2.Point1.Y)
+                {
+                    return false;
+                }
+                return ((line1.Point1.X <= line2.Point1.X && line1.Point2.X >= line2.Point2.X)
+                    || (line1.Point2.X <= line2.Point2.X && line1.Point1.X >= line2.Point1.X));
+            }
+        }
+        public static bool OverlapsOrTouches(ILine line1, ILine line2)
+        {
+            if (line1.IsVertical != line2.IsVertical)
+            {
+                return false;
+            }
+
+            if (line1.IsVertical)
+            {
+                if (line1.Point1.X != line2.Point1.X)
+                {
+                    return false;
+                }
+
+                int lo = Utils.Min(line1.Point1.Y, line1.Point2.Y, line2.Point1.Y, line2.Point2.Y);
+                int hi = Utils.Max(line1.Point1.Y, line1.Point2.Y, line2.Point1.Y, line2.Point2.Y);
+
+                return (line1.Length + line2.Length) >= (hi - lo);
+            }
+            else
+            {
+                if (line1.Point1.Y != line2.Point1.Y)
+                {
+                    return false;
+                }
+
+                int lo = Utils.Min(line1.Point1.X, line1.Point2.X, line2.Point1.X, line2.Point2.X);
+                int hi = Utils.Max(line1.Point1.X, line1.Point2.X, line2.Point1.X, line2.Point2.X);
+
+                return (line1.Length + line2.Length) >= (hi - lo);
+            }
+        }
+        public static Point GetIntersect(ILine line1, ILine line2)
+        {
+            if (Line.CrossesOrTouches(line1, line2))
+            {
+                int x = (line1.IsVertical) ? line1.Point1.X : line2.Point1.X;
+                int y = (line2.IsVertical) ? line1.Point1.Y : line2.Point1.Y;
+                return new Point(x, y);
+            }
+            return new Point(Int32.MinValue, Int32.MinValue);
+        }
     }
 }

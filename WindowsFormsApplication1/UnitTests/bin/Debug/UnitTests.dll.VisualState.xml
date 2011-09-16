@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1002]C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll</TopNode>
-  <SelectedNode>[0-1001]UnitTests.Class1.Test1</SelectedNode>
+  <TopNode>[0-1006]C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll</TopNode>
+  <SelectedNode>[0-1006]C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1002]C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll" Expanded="true" />
-    <Node UniqueName="[0-1003]UnitTests" Expanded="true" />
-    <Node UniqueName="[0-1000]UnitTests.Class1" Expanded="true" />
+    <Node UniqueName="[0-1006]C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll" Expanded="true" />
+    <Node UniqueName="[0-1007]UnitTests" Expanded="true" />
+    <Node UniqueName="[0-1000]UnitTests.TestRooms" Expanded="true" />
   </Nodes>
 </VisualState>

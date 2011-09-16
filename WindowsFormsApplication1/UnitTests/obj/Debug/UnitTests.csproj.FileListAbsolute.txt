@@ -10,7 +10,6 @@ C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProj
 C:\Documents and Settings\PaulF\My Documents\Visual Studio 2010\Projects\OldProjects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\Moq.dll
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.pdb
-C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\Moq.dll
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\nunit.framework.dll
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.exe
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.pdb
@@ -18,3 +17,21 @@ C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\nunit.framework.x
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\obj\Debug\ResolveAssemblyReference.cache
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.dll
 C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.pdb
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.pdb
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\Moq.dll
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\nunit.framework.dll
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.exe
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.pdb
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\nunit.framework.xml
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.dll
+D:\Projects\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.pdb
+C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.dll
+C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\UnitTests.pdb
+C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.exe
+C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\bin\Debug\WindowsFormsApplication1.pdb
+C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.dll
+C:\Projects\rooms15sep\pauladrianfrench-Rooms-6e14677\pauladrianfrench-Rooms-6e14677\WindowsFormsApplication1\UnitTests\obj\Debug\UnitTests.pdb
+C:\Projects\Rooms\WindowsFormsApplication1\UnitTests\bin\Debug\Moq.dll

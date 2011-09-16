@@ -9,5 +9,8 @@
         int Length{get; }
         bool IsVertical{get; }
         Line.Direction Orientation { get; }
+        bool IsCongruentTo(ILine line);
+        Line.Direction RelativeDirection(ILine next);
+        bool HasPoint(Point p);
     }
 }

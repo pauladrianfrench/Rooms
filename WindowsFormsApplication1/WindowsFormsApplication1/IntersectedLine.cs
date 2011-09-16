@@ -9,26 +9,34 @@
         private List<Intersect> iSects;
         private ILine line;
 
+        public IntersectedLine(ILine l)
+        {
+            iSects = new List<Intersect>();
+            line = l;
+        }
         public Point Point1 { get { return line.Point1; } set { line.Point1 = value; } }
         public Point Point2 { get { return line.Point2; } set { line.Point2 = value; } }
         public int Length { get { return line.Length; } }
         public bool IsVertical { get { return line.IsVertical; } }
         public Line.Direction Orientation { get { return line.Orientation;  } }
-
-        public IntersectedLine(ILine l)
-        {
-            List<Intersect> iSects = new List<Intersect>();
-            line = l;    
-        }
-
+        public bool IsCongruentTo(ILine l) { return this.line.IsCongruentTo(l); }
+        public bool HasPoint(Point p) { return this.line.HasPoint(p); }
+        public Line.Direction RelativeDirection(ILine next) { return this.line.RelativeDirection(next); }
         public int CountIntersects { get { return iSects.Count; } }
-
+        public ILine GetLine() { return line; }
         public bool AddIntersect(Intersect ix)
         {
             for (int i = 0; i < iSects.Count; ++i)
             {
-                if (ix == iSects[i])
+                if (!HasPoint(ix.P))
+                {
                     return false;
+                }
+                
+                if (ix == iSects[i])
+                {
+                    return false;
+                }
 
                 if (Line.DistanceBetween(ix.P, line.Point1) < Line.DistanceBetween(iSects[i].P, line.Point1))
                 {
@@ -39,10 +47,9 @@
             iSects.Add(ix);
             return true;
         }
-
         public List<ILine> Split()
         {
-            List<Line> ret = new List<Line>();
+            List<ILine> ret = new List<ILine>();
 
             if (iSects.Count <= 2)
             {
@@ -56,7 +63,6 @@
             }
             return ret;
         }
-
         public bool TrimToIntersects()
         {
             if (iSects.Count <= 0)
@@ -84,7 +90,6 @@
             line.Point2 = iSects[c2].P;
             return true;
         }
-
         private bool TrimPoint(Point point)
         {
             int dist = Int32.MaxValue;

@@ -10,13 +10,11 @@
         
         public static Point InvalidPoint;
 
-        //private List<Line>  lines;
         private List<Shape> shapes;
 
         private Trans areaTrans;
 
         public List<Shape> Shapes { get { return shapes; } }
-      //  public List<Line> Lines { get { return lines; } set { lines = value; } }
 
         public ShapeMaker(int width, int height, Trans t)
         {
@@ -28,11 +26,10 @@
 
             areaTrans = t;
 
-          //  lines = new List<Line>();
             shapes = new List<Shape>();
         }
 
-        public void MakeShapes(List<IRelativeLine> lines)
+        public void MakeShapes(List<ILine> lines)
         {
             ResolveOverLappingLines(lines);
 
@@ -44,11 +41,11 @@
 
             FilletLines(iLines);
             RemoveZeroLengthLines(iLines);
-            SeparateShapes(iLines);
-            BuildShapes(iLines);
+            lines = SeparateShapes(iLines);
+            BuildShapes(lines);
         }
 
-        private void ResolveOverLappingLines(List<IRelativeLine> lines)
+        private void ResolveOverLappingLines(List<ILine> lines)
         {
         Restart:
             for (int i = 0; i < lines.Count; ++i)
@@ -57,9 +54,9 @@
                 {
                     if (i != j)
                     {
-                        if (lines[i].OverlapsOrTouches(lines[j]))
+                        if (Line.OverlapsOrTouches(lines[i],lines[j]))
                         {
-                            Line replace = Line.JoinLines(lines[i], lines[j]);
+                            ILine replace = Line.JoinLines(lines[i], lines[j]);
                             lines.RemoveAt(Utils.Max(i, j));
                             lines[Utils.Min(i, j)] = replace;
                             goto Restart; // hooray! My first ever goto
@@ -82,7 +79,7 @@
             return true;
         }
 
-        public void RemoveFullyOverlappedLines(List<IRelativeLine> lines)
+        public void RemoveFullyOverlappedLines(List<ILine> lines)
         {
         Restart:
             for (int i = 0; i < lines.Count; ++i)
@@ -91,7 +88,7 @@
                 {
                     if (i != j)
                     {
-                        if (lines[i].FullyOverlaps(lines[j]))
+                        if (Line.FullyOverlaps(lines[i], lines[j]))
                         {
                             lines.RemoveAt(j);
                             goto Restart; // hooray! My first ever goto
@@ -107,8 +104,8 @@
             {
                 for (int j = i+1; j < lines.Count; ++j)
                 {
-                    Point p = GetIntersect(lines[i], lines[j]);
-                    if (p != ShapeMaker.InvalidPoint)
+                    Point p = Line.GetIntersect(lines[i], lines[j]);
+                    if (!p.Equals(ShapeMaker.InvalidPoint))
                     {
                         lines[i].AddIntersect(new Intersect(p));
                         lines[j].AddIntersect(new Intersect(p));
@@ -122,41 +119,31 @@
             }
         }
         
-        private bool SeparateShapes(List<IIntersectedLine> lines)
+        private List<ILine> SeparateShapes(List<IIntersectedLine> lines)
         {
+            List<ILine> newLines = new List<ILine>();
             for (int i = lines.Count - 1; i >= 0; i--)
             {
-                IIntersectedLine l = lines[i];
-                lines.RemoveAt(i);
-                List<ILine> s = l.Split();
+                List<ILine> s = lines[i].Split();
                 for (int j = 0; j < s.Count; ++j)
                 {
                     if (s[j].Length > 0)
-                        lines.Add((IntersectedLine)s[j]);
+                    {
+                        newLines.Add(s[j]);
+                    }
                 }
             }
-            return true;
+            return newLines;
         }
 
-        private Point GetIntersect(ILine line1, ILine line2)
-        {
-            if (line1.CrossesOrTouches(line2))
-            {
-                int x = (line1.IsVertical) ? line1.Point1.X : line2.Point1.X;
-                int y = (line2.IsVertical) ? line1.Point1.Y : line2.Point1.Y;
-                return new Point(x, y);
-            }
-            return ShapeMaker.InvalidPoint;
-        }
-
-        private void BuildShapes(List<IRelativeLine> lines)
+        private void BuildShapes(List<ILine> lines)
         {
             if (lines.Count == 0)
                 return;
             
             MyLineQueue q = new MyLineQueue();
 
-            q.Enqueue((Line)lines[0], shapes);
+            q.Enqueue(lines[0], shapes);
             
             while (q.Count > 0)
             {
@@ -173,12 +160,12 @@
             }
         }
 
-        private void MapShape(MyLineQueue q, List<Line> lines)
+        private void MapShape(MyLineQueue q, List<ILine> lines)
         {
             Shape s = new Shape();
             try
             {
-                Line start = q.Dequeue();
+                ILine start = q.Dequeue();
                 int qSize = q.Count;
                 
                 FollowLine(start, s, q, lines);
@@ -199,8 +186,11 @@
                 {
                     int remove = q.Count - qSize;
                     if (remove > 0)
+                    {
                         q.Remove(remove);
-                    q.Enqueue(Line.Flip((s.GetLines())[0]), shapes);
+                    }
+                    ILine li = (s.GetLines())[0];
+                    q.Enqueue(Line.Flip(li), shapes);
                 }
                 else
                 {
@@ -224,16 +214,16 @@
             return false;
         }
 
-        private bool ResolveDuplicateLines(Shape s, List<Line> lines)
+        private bool ResolveDuplicateLines(Shape s, List<ILine> lines)
         {
             bool ret = false;
-            List<Line> l = s.GetLines();
+            List<ILine> l = s.GetLines();
             int nLine = l.Count;
             for (int i = 0; i < nLine; i++)
             {
                 for (int j = i+1; j < nLine; j++)
                 {
-                    if (l[i] == l[j])
+                    if (l[i].IsCongruentTo(l[j]))
                     {
                         KillLine(l[i], lines);
                         ret = true;
@@ -243,13 +233,13 @@
             return ret;
         }
 
-        private void KillLine(Line l, List<Line> lines)
+        private void KillLine(ILine l, List<ILine> lines)
         {
             int nLine = lines.Count;
             int kill = -1;
             for (int i = 0; i < nLine; i++)
             {
-                if (lines[i] == l)
+                if (lines[i].IsCongruentTo(l))
                     kill = i;
             }
             if (kill >= 0)
@@ -275,7 +265,7 @@
             shapes.Add(s);
         }
 
-        int FindUnusedLine(List<Line> lines)
+        int FindUnusedLine(List<ILine> lines)
         {
             int nLine = lines.Count;
             for (int i = 0; i < nLine; i++)
@@ -302,8 +292,8 @@
 
             for (int i = 0; i < s.Points.Count; i++)
             {
-                Line l1 = new Line(s.Points[i], s.Points[(i + 1) % s.Points.Count]);
-                Line l2 = new Line(s.Points[(i + 1) % s.Points.Count], s.Points[(i + 2) % s.Points.Count]);
+                ILine l1 = new Line(s.Points[i], s.Points[(i + 1) % s.Points.Count]);
+                ILine l2 = new Line(s.Points[(i + 1) % s.Points.Count], s.Points[(i + 2) % s.Points.Count]);
 
                 switch (l1.RelativeDirection(l2))
                 {
@@ -341,18 +331,18 @@
             return list;
         }
 
-        private void FollowLine(Line start, Shape s, MyLineQueue q, List<Line> lines)
+        private void FollowLine(ILine start, Shape s, MyLineQueue q, List<ILine> lines)
         {
            // q.Remove(start);
 
             if (!s.AddPoint(start.Point1))
                 return;
 
-            List<Line> l = new List<Line>();
+            List<ILine> l = new List<ILine>();
 
             for (int i = 0; i < lines.Count; i++)
             {
-                if (lines[i] != start)
+                if (!lines[i].IsCongruentTo(start))
                 {
                     if (lines[i].HasPoint(start.Point2))
                     {

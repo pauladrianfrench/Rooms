@@ -8,7 +8,7 @@
     public partial class Form1 : Form
     {
         ShapeMaker shapeMaker;
-        List<Line> userLines;
+        List<ILine> userLines;
 
         public Form1()
         {
@@ -17,7 +17,7 @@
             int areaWidth  = 20;
             int areaHeight = 15;
 
-            userLines = new List<Line>();
+            userLines = new List<ILine>();
             shapeMaker = new ShapeMaker(areaWidth, areaHeight, new Trans { XScale = 20, YScale = 20, Origin = new Point(10, 16) });
 
             // set up x y selector controls (spin boxes)
@@ -35,7 +35,7 @@
         private void AddLine_Click(object sender, EventArgs e)
         {
            ////  Manually add lines - DO NOT DELETE!!
-            Line l = new Line(new Point(Convert.ToInt32(this.point1X.Value),
+            ILine l = new Line(new Point(Convert.ToInt32(this.point1X.Value),
                                             Convert.ToInt32(this.point1Y.Value)),
                                   new Point(Convert.ToInt32(this.point2X.Value),
                                             Convert.ToInt32(this.point2Y.Value)));

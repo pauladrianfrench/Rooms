@@ -6,11 +6,11 @@
     
     public static class Sketcher
     {
-        public static void Draw(ShapeMaker a, DrawParams dParams, SelectShapeEnum fillMode, List<Line> lines)
+        public static void Draw(ShapeMaker a, DrawParams dParams, SelectShapeEnum fillMode, List<ILine> lines)
         {
             if (a.Shapes.Count == 0)
             {
-                foreach (Line line in lines)
+                foreach (ILine line in lines)
                 {
                     Draw(line, dParams);
                 }
@@ -79,7 +79,7 @@
             dParams.Graphics.FillPolygon(fillBrush, pArray);
         }
 
-        public static void Draw(Line l, DrawParams dParams)
+        public static void Draw(ILine l, DrawParams dParams)
         {
             dParams.Graphics.DrawLine(dParams.Pen, dParams.Trans.TransPoint(l.Point1), dParams.Trans.TransPoint(l.Point2));
         }

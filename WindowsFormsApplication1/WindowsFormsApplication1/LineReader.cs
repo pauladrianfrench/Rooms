@@ -7,9 +7,9 @@
 
     public static class LineReader
     {
-        public static List<Line> GetLines(string filePath)
+        public static List<ILine> GetLines(string filePath)
         {
-            List<Line> lines = new List<Line>();
+            List<ILine> lines = new List<ILine>();
 
             StreamReader sw = new StreamReader(filePath);
 
